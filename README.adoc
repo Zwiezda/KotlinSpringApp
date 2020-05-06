@@ -51,6 +51,10 @@ DELETE /patients/{id} - Delete patient with specified id
 == VisitController
 Provides CRUD operations on visits.
 
+
+POST and PUT endpoint supports additional, optional parameter: "expectedVisitDuration"
+It's a expected visit duration in minutes. Default value is 60
+
 Available endpoints:
 ----
 GET /visits - Get all visits saved in database
@@ -61,6 +65,7 @@ Example request body:
 {
 	"visitTime": "14:00",
 	"visitDate": "01-01-1999",
+    "expectedVisitDuration": 100,
 	"doctor": {
 		"id": 1
 	},
@@ -74,6 +79,7 @@ Example request body:
 {
 	"visitTime": "14:30",
 	"visitDate": "01-01-1999",
+    "expectedVisitDuration": 100,
 	"doctor": {
 		"id": 1
 	},
