@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pl.techdra.rsq.assembler.VisitModelAssembler
 import pl.techdra.rsq.domain.Visit
+import pl.techdra.rsq.exception.ChangePatientException
 import pl.techdra.rsq.exception.DoctorNotFoundException
 import pl.techdra.rsq.exception.PatientNotFoundException
 import pl.techdra.rsq.exception.VisitNotFoundException
@@ -59,7 +60,11 @@ class VisitController(
             throw PatientNotFoundException(visit.patient.id!!)
         }
 
-        return visitModelAssembler.toModel(visitRepository.save(visit))
+        visit.doctor = doctorRepository.findById(visit.doctor.id!!).get();
+        visit.patient = patientRepository.findById(visit.patient.id!!).get();
+
+        val result = visitRepository.save(visit)
+        return visitModelAssembler.toModel(result)
     }
 
     @PutMapping("/{id}")
@@ -72,7 +77,9 @@ class VisitController(
             throw PatientNotFoundException(visit.patient.id!!)
         }
 
-        val result = visitRepository.findById(id).map {
+        var result = visitRepository.findById(id).map {
+            if (it.patient.id != visit.patient.id) throw ChangePatientException()   //If user try to change patient
+
             it.doctor = visit.doctor
             it.patient = visit.patient
             it.visitDate = visit.visitDate
@@ -83,6 +90,8 @@ class VisitController(
             visit.id = id
             return@orElseGet visitRepository.save(visit)
         }
+
+        result = visitRepository.findById(result.id!!).get()
 
         return if (result.id != id) {
             ResponseEntity(visitModelAssembler.toModel(result), HttpStatus.CREATED)

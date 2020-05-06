@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.hateoas.MediaTypes
 import org.springframework.http.HttpHeaders
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -17,6 +18,7 @@ import pl.techdra.rsq.repository.DoctorRepository
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@ActiveProfiles("dev")
 class DoctorControllerTest
 {
     @Autowired
@@ -100,10 +102,10 @@ class DoctorControllerTest
     @Test
     fun `DELETE doctor via REST`() {
         var firstDoctor = Doctor("Jan", "Kowalski", "Kardiolog")
-        var secondDoctor = Doctor("Mateusz", "Nowak", "Neurolog")
+        val secondDoctor = Doctor("Mateusz", "Nowak", "Neurolog")
 
         firstDoctor = doctorRepository!!.save(firstDoctor)
-        secondDoctor = doctorRepository!!.save(secondDoctor)
+        doctorRepository!!.save(secondDoctor)
 
         mockMvc!!.perform(delete("/doctors/${firstDoctor.id}").accept("application/json"))
                 .andExpect(status().isOk)

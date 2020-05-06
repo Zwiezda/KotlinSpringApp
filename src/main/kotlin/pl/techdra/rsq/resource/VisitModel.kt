@@ -13,6 +13,7 @@ import java.time.LocalTime
 
 @Relation(itemRelation = "visit", collectionRelation = "visits")
 class VisitModel(visit: Visit) : RepresentationModel<VisitModel>() {
+    val id: Long? = visit.id
     val doctor: DoctorModel = doctorModelAssembler.toModel(visit.doctor)
     val patient: PatientModel = patientModelAssembler.toModel(visit.patient)
     @field:JsonFormat(pattern = "HH:mm") val visitTime: LocalTime = visit.visitTime

@@ -1,11 +1,13 @@
 package pl.techdra.rsq.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import net.minidev.json.annotate.JsonIgnore
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Doctor(
         @field:NotBlank(message = "firstName can't be empty!")
         var firstName: String?,

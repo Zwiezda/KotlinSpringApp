@@ -6,6 +6,7 @@ import pl.techdra.rsq.domain.Patient
 
 @Relation(itemRelation = "patient", collectionRelation = "patients")
 class PatientModel(patient: Patient)  : RepresentationModel<DoctorModel>()   {
+    val id: Long? = patient.id
     val firstName: String? = patient.firstName
     val lastName: String? = patient.lastName
     val address: String? = patient.address

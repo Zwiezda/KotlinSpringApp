@@ -1,0 +1,86 @@
+== DoctorController
+Provides CRUD operations on doctors.
+
+Available endpoints:
+----
+GET /doctors - Get all doctors saved in database
+GET /doctors/{id} - Get doctor with specified id
+POST /doctors - Add new docor
+Example request body:
+{
+	"firstName": "Jack",
+	"lastName": "Norman",
+	"specialization": "Cardiologist"
+}
+
+PUT /doctors/{id} - Edit or add doctor
+Example request body:
+{
+	"firstName": "Jack",
+	"lastName": "Smith",
+	"specialization": "Cardiologist"
+}
+
+DELETE /doctors/{id} - Delete doctor with specified id
+----
+== PatientController
+Provides CRUD operations on patients.
+
+Available endpoints:
+----
+GET /patients - Get all patients saved in database
+GET /patients/{id} - Get patient with specified id
+POST /patients - Add new docor
+Example request body:
+{
+	"firstName": "Jack",
+	"lastName": "Norman",
+	"address": "Los Angeles"
+}
+
+PUT /patients/{id} - Edit or add patient
+Example request body:
+{
+	"firstName": "Jack",
+	"lastName": "Smith",
+	"address": "Los Angeles"
+}
+
+DELETE /patients/{id} - Delete patient with specified id
+----
+== VisitController
+Provides CRUD operations on visits.
+
+Available endpoints:
+----
+GET /visits - Get all visits saved in database
+GET /visits/{id} - Get visit with specified id
+GET /visits/patient/{id} - Get patient visits
+POST /visits - Add new visit
+Example request body:
+{
+	"visitTime": "14:00",
+	"visitDate": "01-01-1999",
+	"doctor": {
+		"id": 1
+	},
+	"patient": {
+        "id": 2
+	}
+}
+
+PUT /visits/{id} - Edit or add visit
+Example request body:
+{
+	"visitTime": "14:30",
+	"visitDate": "01-01-1999",
+	"doctor": {
+		"id": 1
+	},
+	"patient": {
+        "id": 2
+	}
+}
+
+DELETE /visits/{id} - Delete visit with specified id
+----

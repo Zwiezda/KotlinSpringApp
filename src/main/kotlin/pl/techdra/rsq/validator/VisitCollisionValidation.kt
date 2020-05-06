@@ -25,11 +25,11 @@ class VisitCollisionValidation
 
             if (value == null) return false
 
-            val startOfVisit = value.visitDate.atTime(value.visitTime)
-            val endOfVisit = startOfVisit.plusMinutes(value.expectedVisitDuration.toLong())
+            val startOfVisit = value.visitDate.atTime(value.visitTime)  //visit start date
+            val endOfVisit = startOfVisit.plusMinutes(value.expectedVisitDuration.toLong()) //visit end date
 
-            val nextVisit = visitRepository?.getLastVisitBeforeDate(value.doctor, endOfVisit.toLocalDate(), endOfVisit.toLocalTime())!!.firstOrNull()
-            val beforeVisit = visitRepository?.getLastVisitBeforeDate(value.doctor, value.visitDate, value.visitTime)!!.firstOrNull()
+            val nextVisit = visitRepository?.getLastVisitBeforeDate(value.doctor, endOfVisit.toLocalDate(), endOfVisit.toLocalTime())!!.firstOrNull()   //Get next visit
+            val beforeVisit = visitRepository?.getLastVisitBeforeDate(value.doctor, value.visitDate, value.visitTime)!!.firstOrNull()   //Get visit before
             if (beforeVisit != null) {
                 val endOfBeforeVisit = beforeVisit.visitDate.atTime(beforeVisit.visitTime).plusMinutes(beforeVisit.expectedVisitDuration.toLong())
                 if (beforeVisit.patient.id != value.patient.id && endOfBeforeVisit.isAfter(startOfVisit)) {
@@ -46,7 +46,7 @@ class VisitCollisionValidation
 
             return true
         } finally {
-            entytyManager!!.flushMode = FlushModeType.AUTO
+            entytyManager!!.flushMode = FlushModeType.AUTO  //Restore EntityManager to default settings
         }
 
 

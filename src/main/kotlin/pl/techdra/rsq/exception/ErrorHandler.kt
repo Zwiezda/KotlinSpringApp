@@ -21,12 +21,17 @@ class ErrorHandler : ResponseEntityExceptionHandler() {
         return ErrorResponseEntity(e.message!!, 404)
     }
 
+    @ExceptionHandler(ChangePatientException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handlePatientChangeInExistingVisit(e: ChangePatientException) : ErrorResponseEntity {
+        return ErrorResponseEntity(e.message!!, 400)
+    }
+
     override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         val result = ex.bindingResult
-        val fieldErrors = result.fieldErrors
-        fieldErrors.joinToString {"${it.field} - ${it.defaultMessage}"}
+        val errors = result.allErrors
 
-        return ResponseEntity(ErrorResponseEntity(fieldErrors.joinToString {"${it.field} - ${it.defaultMessage}"}, 400), HttpStatus.BAD_REQUEST)
+        return ResponseEntity(ErrorResponseEntity(errors.joinToString {"${it.objectName} - ${it.defaultMessage}"}, 400), HttpStatus.BAD_REQUEST)
     }
 
 }

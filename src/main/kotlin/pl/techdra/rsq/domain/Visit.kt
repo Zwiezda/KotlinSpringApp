@@ -1,6 +1,7 @@
 package pl.techdra.rsq.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import org.hibernate.annotations.NotFound
 import org.hibernate.annotations.NotFoundAction
 import pl.techdra.rsq.validator.VisitCollisionCheck
@@ -12,6 +13,7 @@ import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @VisitCollisionCheck(message = "Another visit is already registered")
 class Visit (
         @field:ManyToOne

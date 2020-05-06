@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.TransactionSystemException
 import pl.techdra.rsq.domain.Doctor
 import pl.techdra.rsq.domain.Patient
@@ -17,6 +18,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("dev")
 class VisitRepositoryTest(
         @Autowired val doctorRepository: DoctorRepository,
         @Autowired val patientRepository: PatientRepository,
@@ -104,7 +106,6 @@ class VisitRepositoryTest(
     fun `Delete visit`() {
         val time = LocalTime.parse("12:00:00")
         val date = LocalDate.parse("1999-03-01")
-        val changedDate = LocalDate.parse("1999-03-03")
         val doctor = createDoctor()
         val patient = createPatient()
 
